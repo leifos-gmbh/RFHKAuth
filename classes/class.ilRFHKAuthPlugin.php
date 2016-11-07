@@ -30,10 +30,7 @@ class ilRFHKAuthPlugin extends ilShibbolethAuthenticationPlugin
 	public function beforeCreateUser(ilObjUser $user) 
 	{
 		ilLoggerFactory::getLogger('auth')->debug('Plugin called for user');
-		$user->setLogin('smeyer_shib');
-		
 		return $user;
 	}
-
 }
 ?>
