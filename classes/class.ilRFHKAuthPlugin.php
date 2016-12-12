@@ -38,8 +38,9 @@ class ilRFHKAuthPlugin extends ilShibbolethAuthenticationPlugin
 		{
 			if(array_key_exists($shib_uid_field, $_SERVER))
 			{
-				$user->setLogin($_SERVER[$shib_uid_field]);
+				$login = ilAuthUtils::_generateLogin($_SERVER[$shib_uid_field]);
 				$user->setExternalAccount($_SERVER[$shib_uid_field]);
+				$user->setLogin($login);
 			}
 		}
 		return $user;
