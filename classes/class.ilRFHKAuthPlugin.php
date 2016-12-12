@@ -29,7 +29,16 @@ class ilRFHKAuthPlugin extends ilShibbolethAuthenticationPlugin
 	 */
 	public function beforeCreateUser(ilObjUser $user) 
 	{
-		ilLoggerFactory::getLogger('auth')->debug('Plugin called for user');
+		global $ilSetting;
+		
+		ilLoggerFactory::getLogger('auth')->debug('Before user creation (shib): ' . $user->getExternalAccount());
+		
+		$shib_uid_field = $ilSetting->get('shib_uid');
+		if(array_key_exists($shib_uid_field, $_SERVER))
+		{
+			$user->setLogin($_SERVER[$shib_uid_field]);
+			$user->setExternalAccount($_SERVER[$shib_uid_field]);
+		}
 		return $user;
 	}
 }
