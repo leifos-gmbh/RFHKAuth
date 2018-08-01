@@ -4,7 +4,7 @@
 
 include_once './Services/AuthShibboleth/classes/class.ilShibbolethAuthenticationPlugin.php';
 /**
- * Description of class class 
+ * Shibboleth authentication plugin for username generation
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de> 
  *
@@ -29,11 +29,14 @@ class ilRFHKAuthPlugin extends ilShibbolethAuthenticationPlugin
 	 */
 	public function beforeCreateUser(ilObjUser $user) 
 	{
-		global $ilSetting;
-		
-		ilLoggerFactory::getLogger('auth')->debug('Before user creation (shib): ' . $user->getExternalAccount());
+		global $DIC;
+
+		$logger = $DIC->logger()->auth();
+		$ilSetting = $DIC->settings();
+
+		$logger->debug('Before user creation (shib): ' . $user->getExternalAccount());
 		$shib_uid_field = $ilSetting->get('shib_login');
-		ilLoggerFactory::getLogger('auth')->debug('UID field: ' . $shib_uid_field);
+		$logger->debug('UID field: ' . $shib_uid_field);
 		if(strlen($shib_uid_field))
 		{
 			if(array_key_exists($shib_uid_field, $_SERVER))
